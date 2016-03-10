@@ -14,12 +14,12 @@
 		840BCE7B1BABB541008C0863 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 840BCE7A1BABB541008C0863 /* Images.xcassets */; };
 		840BCE7E1BABB541008C0863 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 840BCE7C1BABB541008C0863 /* LaunchScreen.xib */; };
 		840BCE8A1BABB541008C0863 /* ______Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 840BCE891BABB541008C0863 /* ______Tests.m */; };
-		840BCF241BAE530D008C0863 /* GBEncodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 840BCF1D1BAE530D008C0863 /* GBEncodeTool.m */; };
-		840BCF251BAE530D008C0863 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 840BCF201BAE530D008C0863 /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
-		840BCF261BAE530D008C0863 /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 840BCF231BAE530D008C0863 /* NSData+AES.m */; };
-		84E6D4551C2BDFF60039A60F /* RSACodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 84E6D4541C2BDFF60039A60F /* RSACodeTool.m */; };
-		84E6D4571C2BFB5D0039A60F /* private_key.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 84E6D4561C2BFB5D0039A60F /* private_key.p12 */; };
-		84E6D4591C2BFB610039A60F /* public_key.der in Resources */ = {isa = PBXBuildFile; fileRef = 84E6D4581C2BFB610039A60F /* public_key.der */; };
+		845CAFEB1C913783008B090C /* GBEncodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 845CAFE01C913783008B090C /* GBEncodeTool.m */; };
+		845CAFEC1C913783008B090C /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 845CAFE31C913783008B090C /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
+		845CAFED1C913783008B090C /* NSData+AES.m in Sources */ = {isa = PBXBuildFile; fileRef = 845CAFE61C913783008B090C /* NSData+AES.m */; };
+		845CAFEE1C913783008B090C /* private_key.p12 in Resources */ = {isa = PBXBuildFile; fileRef = 845CAFE71C913783008B090C /* private_key.p12 */; };
+		845CAFEF1C913783008B090C /* public_key.der in Resources */ = {isa = PBXBuildFile; fileRef = 845CAFE81C913783008B090C /* public_key.der */; };
+		845CAFF01C913783008B090C /* RSACodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 845CAFEA1C913783008B090C /* RSACodeTool.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,17 +46,17 @@
 		840BCE831BABB541008C0863 /* 各种加密手段Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "各种加密手段Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		840BCE881BABB541008C0863 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		840BCE891BABB541008C0863 /* ______Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "______Tests.m"; sourceTree = "<group>"; };
-		840BCF1C1BAE530D008C0863 /* GBEncodeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBEncodeTool.h; sourceTree = "<group>"; };
-		840BCF1D1BAE530D008C0863 /* GBEncodeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBEncodeTool.m; sourceTree = "<group>"; };
-		840BCF1F1BAE530D008C0863 /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
-		840BCF201BAE530D008C0863 /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
-		840BCF211BAE530D008C0863 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
-		840BCF221BAE530D008C0863 /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
-		840BCF231BAE530D008C0863 /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
-		84E6D4531C2BDFF60039A60F /* RSACodeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSACodeTool.h; sourceTree = "<group>"; };
-		84E6D4541C2BDFF60039A60F /* RSACodeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSACodeTool.m; sourceTree = "<group>"; };
-		84E6D4561C2BFB5D0039A60F /* private_key.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = private_key.p12; sourceTree = "<group>"; };
-		84E6D4581C2BFB610039A60F /* public_key.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = public_key.der; sourceTree = "<group>"; };
+		845CAFDF1C913783008B090C /* GBEncodeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GBEncodeTool.h; sourceTree = "<group>"; };
+		845CAFE01C913783008B090C /* GBEncodeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GBEncodeTool.m; sourceTree = "<group>"; };
+		845CAFE21C913783008B090C /* GTMBase64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMBase64.h; sourceTree = "<group>"; };
+		845CAFE31C913783008B090C /* GTMBase64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GTMBase64.m; sourceTree = "<group>"; };
+		845CAFE41C913783008B090C /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
+		845CAFE51C913783008B090C /* NSData+AES.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSData+AES.h"; sourceTree = "<group>"; };
+		845CAFE61C913783008B090C /* NSData+AES.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSData+AES.m"; sourceTree = "<group>"; };
+		845CAFE71C913783008B090C /* private_key.p12 */ = {isa = PBXFileReference; lastKnownFileType = file; path = private_key.p12; sourceTree = "<group>"; };
+		845CAFE81C913783008B090C /* public_key.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = public_key.der; sourceTree = "<group>"; };
+		845CAFE91C913783008B090C /* RSACodeTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSACodeTool.h; sourceTree = "<group>"; };
+		845CAFEA1C913783008B090C /* RSACodeTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSACodeTool.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,7 +98,7 @@
 		840BCE6C1BABB541008C0863 /* 各种加密手段 */ = {
 			isa = PBXGroup;
 			children = (
-				840BCF1B1BAE530D008C0863 /* GBEncodeTool */,
+				845CAFDE1C913783008B090C /* GBEncodeTool */,
 				840BCE711BABB541008C0863 /* AppDelegate.h */,
 				840BCE721BABB541008C0863 /* AppDelegate.m */,
 				840BCE741BABB541008C0863 /* ViewController.h */,
@@ -137,28 +137,28 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		840BCF1B1BAE530D008C0863 /* GBEncodeTool */ = {
+		845CAFDE1C913783008B090C /* GBEncodeTool */ = {
 			isa = PBXGroup;
 			children = (
-				84E6D4561C2BFB5D0039A60F /* private_key.p12 */,
-				84E6D4581C2BFB610039A60F /* public_key.der */,
-				840BCF1C1BAE530D008C0863 /* GBEncodeTool.h */,
-				840BCF1D1BAE530D008C0863 /* GBEncodeTool.m */,
-				84E6D4531C2BDFF60039A60F /* RSACodeTool.h */,
-				84E6D4541C2BDFF60039A60F /* RSACodeTool.m */,
-				840BCF1E1BAE530D008C0863 /* GTMBase64 */,
-				840BCF221BAE530D008C0863 /* NSData+AES.h */,
-				840BCF231BAE530D008C0863 /* NSData+AES.m */,
+				845CAFDF1C913783008B090C /* GBEncodeTool.h */,
+				845CAFE01C913783008B090C /* GBEncodeTool.m */,
+				845CAFE11C913783008B090C /* GTMBase64 */,
+				845CAFE51C913783008B090C /* NSData+AES.h */,
+				845CAFE61C913783008B090C /* NSData+AES.m */,
+				845CAFE71C913783008B090C /* private_key.p12 */,
+				845CAFE81C913783008B090C /* public_key.der */,
+				845CAFE91C913783008B090C /* RSACodeTool.h */,
+				845CAFEA1C913783008B090C /* RSACodeTool.m */,
 			);
 			path = GBEncodeTool;
 			sourceTree = "<group>";
 		};
-		840BCF1E1BAE530D008C0863 /* GTMBase64 */ = {
+		845CAFE11C913783008B090C /* GTMBase64 */ = {
 			isa = PBXGroup;
 			children = (
-				840BCF1F1BAE530D008C0863 /* GTMBase64.h */,
-				840BCF201BAE530D008C0863 /* GTMBase64.m */,
-				840BCF211BAE530D008C0863 /* GTMDefines.h */,
+				845CAFE21C913783008B090C /* GTMBase64.h */,
+				845CAFE31C913783008B090C /* GTMBase64.m */,
+				845CAFE41C913783008B090C /* GTMDefines.h */,
 			);
 			path = GTMBase64;
 			sourceTree = "<group>";
@@ -246,8 +246,8 @@
 				840BCE791BABB541008C0863 /* Main.storyboard in Resources */,
 				840BCE7E1BABB541008C0863 /* LaunchScreen.xib in Resources */,
 				840BCE7B1BABB541008C0863 /* Images.xcassets in Resources */,
-				84E6D4571C2BFB5D0039A60F /* private_key.p12 in Resources */,
-				84E6D4591C2BFB610039A60F /* public_key.der in Resources */,
+				845CAFEE1C913783008B090C /* private_key.p12 in Resources */,
+				845CAFEF1C913783008B090C /* public_key.der in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -266,11 +266,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				840BCE761BABB541008C0863 /* ViewController.m in Sources */,
-				84E6D4551C2BDFF60039A60F /* RSACodeTool.m in Sources */,
+				845CAFF01C913783008B090C /* RSACodeTool.m in Sources */,
 				840BCE731BABB541008C0863 /* AppDelegate.m in Sources */,
-				840BCF261BAE530D008C0863 /* NSData+AES.m in Sources */,
-				840BCF251BAE530D008C0863 /* GTMBase64.m in Sources */,
-				840BCF241BAE530D008C0863 /* GBEncodeTool.m in Sources */,
+				845CAFED1C913783008B090C /* NSData+AES.m in Sources */,
+				845CAFEC1C913783008B090C /* GTMBase64.m in Sources */,
+				845CAFEB1C913783008B090C /* GBEncodeTool.m in Sources */,
 				840BCE701BABB541008C0863 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
