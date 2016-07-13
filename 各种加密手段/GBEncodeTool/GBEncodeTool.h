@@ -103,6 +103,48 @@
 
 + (NSString*)decodeBase64Data:(NSData *)data;
 /**
+ *  DES加密 ECB模式（最常用最简单的模式）
+ *
+ *  @param plainText 明文
+ *  @param key       密钥
+ *
+ *  @return  密文
+ */
++ (NSString*)DESEncrypt:(NSString *)plainText WithKey:(NSString *)key;
+/**
+ *  DES解密 ECB模式（最常用最简单的模式）
+ *
+ *  @param encryptText 密文
+ *  @param key         密钥
+ *
+ *  @return 明文
+ */
++ (NSString*)DESDecrypt:(NSString *)encryptText WithKey:(NSString *)key;
+/**
+ *  DES加密 CBC模式
+ *
+ *  @param plainText 明文
+ *  @param key       密钥
+ *  @param iv        偏移量
+ *
+ *  @return 密文
+ */
++ (NSString*)DESEncrypt:(NSString *)plainText
+                      Key:(NSString *)key
+                       IV:(NSString*)iv;
+/**
+ *  DES解密 CBC模式
+ *
+ *  @param encryptText 密文
+ *  @param key       密钥
+ *  @param iv        偏移
+ *
+ *  @return 明文
+ */
++ (NSString*)DESDecrypt:(NSString *)encryptText
+                      Key:(NSString *)key
+                       IV:(NSString*)iv;
+/**
  *  AES128加密（非CBC模式）
  *
  *  @param plainText 明文

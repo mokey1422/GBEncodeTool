@@ -11,7 +11,9 @@
 
 #define AES_KEY @"D5B6D8584F94B434"
 #define AES_IV @"205681D89D731A8E"
-#define  PUBLIC_APP_KEY @"helloWord"
+#define DES_KEY @"D5B6D8584F94B434"
+#define DES_IV @"205681D89D731A8E"
+#define PUBLIC_APP_KEY @"helloWord"
 #define PUBLICK_KEY @"-----BEGIN PUBLIC KEY-----\nMIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDEChqe80lJLTTkJD3X3Lyd7Fj+\nzuOhDZkjuLNPog3YR20e5JcrdqI9IFzNbACY/GQVhbnbvBqYgyql8DfPCGXpn0+X\nNSxELIUw9Vh32QuhGNr3/TBpechrVeVpFPLwyaYNEk1CawgHCeQqf5uaqiaoBDOT\nqeox88Lc1ld7MsfggQIDAQAB\n-----END PUBLIC KEY-----"
 #define PRIVATE_KEY @"-----BEGIN RSA PRIVATE KEY-----\nMIICdwIBADANBgkqhkiG9w0BAQEFAASCAmEwggJdAgEAAoGBAMQKGp7zSUktNOQk\nPdfcvJ3sWP7O46ENmSO4s0+iDdhHbR7klyt2oj0gXM1sAJj8ZBWFudu8GpiDKqXw\nN88IZemfT5c1LEQshTD1WHfZC6EY2vf9MGl5yGtV5WkU8vDJpg0STUJrCAcJ5Cp/\nm5qqJqgEM5Op6jHzwtzWV3syx+CBAgMBAAECgYEApSzqPzE3d3uqi+tpXB71oY5J\ncfB55PIjLPDrzFX7mlacP6JVKN7dVemVp9OvMTe/UE8LSXRVaFlkLsqXC07FJjhu\nwFXHPdnUf5sanLLdnzt3Mc8vMgUamGJl+er0wdzxM1kPTh0Tmq+DSlu5TlopAHd5\nIqF3DYiORIen3xIwp0ECQQDj6GFaXWzWAu5oUq6j1msTRV3mRZnx8Amxt1ssYM0+\nJLf6QYmpkGFqiQOhHkMgVUwRFqJC8A9EVR1eqabcBXbpAkEA3DQfLVr94vsIWL6+\nVrFcPJW9Xk28CNY6Xnvkin815o2Q0JUHIIIod1eVKCiYDUzZAYAsW0gefJ49sJ4Y\niRJN2QJAKuxeQX2s/NWKfz1rRNIiUnvTBoZ/SvCxcrYcxsvoe9bAi7KCMdxObJkn\nhNXFQLav39wKbV73ESCSqnx7P58L2QJABmhR2+0A5EDvvj1WpokkqPKmfv7+ELfD\nHQq33LvU4q+N3jPn8C85ZDedNHzx57kru1pyb/mKQZANNX10M1DgCQJBAMKn0lEx\nQH2GrkjeWgGVpPZkp0YC+ztNjaUMJmY5g0INUlDgqTWFNftxe8ROvt7JtUvlgtKC\nXdXQrKaEnpebeUQ=\n-----END RSA PRIVATE KEY-----"
 @interface ViewController ()
@@ -48,93 +50,126 @@
      对称加密算法：DES算法，3DES算法，TDEA算法，Blowfish算法，RC5算法，IDEA算法，AES算法。
      非对称加密算法：RSA、Elgamal、背包算法、Rabin、D-H、ECC。
      经典的哈希算法：MD2、MD4、MD5 和 SHA-1（目的是将任意长输入通过算法变为固定长输出，且保证输入变化一点输出都不同，且不能反向解密）
-     * 今天我们来说一下我们在来发中常用的算法暂时只讲：MD5、Base64、sha、AES、rsa
+     * 今天我们来说一下我们在来发中常用的算法暂时只讲：MD5、Base64、sha、AES、RSA
      * 补充：RSA加密算法中比较重要的加密算法
      *  非对称加密算法可能是世界上最重要的算法，它是当今电子商务等领域的基石。简而言之，非对称加密就是指加密公钥和解密密钥是不同的，而且加密公钥和解密密钥是成对出现。非对称加密又叫公钥加密，也就是说成对的密钥，其中一个是对外公开的，所有人都可以获得，人们称之为公钥；而与之相对应的称为私钥，只有这对密钥的生成者才能拥有。
      *  对于一个私钥，有且只有一个与之对应的公钥。公钥公开给任何人，私钥通常是只有生成者拥有。公/私钥通常是1024位或者2048位，越长安全系数越高，但是解密越困难。尽管拿到了公钥，如果没有私钥，要想解密那几乎是不可能的，至少现在在世界上还没有人公开出来说成功解密的（要是你能写出解密的算法你可以去申请专利权了
      \(^o^)/~）。
      *  总结：公钥和密钥成对出现，其中公钥负责加密 ，私钥负责解密
      *  补充：AES
-     *  1. ECB(Electronic Code Book电子密码本)模式
-     *     ECB模式是最早采用和最简单的模式，它将加密的数据分成若干组，每组的大小跟加密密钥长度相同，然后每组都用相同的密钥进行加密。
-     优点:   1.简单；   2.有利于并行计算；  3.误差不会被扩散；
-     缺点:   1.不能隐藏明文的模式；  2.可能对明文进行主动攻击；
-     因此，此模式适于加密小消息。
-     *  2. CBC(Cipher Block Chaining，加密块链)模式
-     优点：  不容易主动攻击,安全性好于ECB,适合传输长度长的报文,是SSL、IPSec的标准。
-     缺点：  1.不利于并行计算；  2.误差传递；  3.需要初始化向量IV
-     3. CFB(Cipher FeedBack Mode，加密反馈)模式
-     优点：1.隐藏了明文模式;  2.分组密码转化为流模式;  3.可以及时加密传送小于分组的数据;
-     缺点:  1.不利于并行计算;  2.误差传送：一个明文单元损坏影响多个单元;  3.唯一的IV;
-     4. OFB(Output FeedBack，输出反馈)模式
-     优点:  1.隐藏了明文模式;  2.分组密码转化为流模式;  3.可以及时加密传送小于分组的数据;
-     缺点:  1.不利于并行计算;  2.对明文的主动攻击是可能的;  3.误差传送：一个明文单元损坏影响多个单元;
+     *  
+         1. ECB(Electronic Code Book电子密码本)模式
+         ECB模式是最早采用和最简单的模式，它将加密的数据分成若干组，每组的大小跟加密密钥长度相同，然后每组都用相同的密钥进行加密。
+         优点:   1.简单；   2.有利于并行计算；  3.误差不会被扩散；
+         缺点:   1.不能隐藏明文的模式；  2.可能对明文进行主动攻击；
+         因此，此模式适于加密小消息。
+         2. CBC(Cipher Block Chaining，加密块链)模式
+         优点：  不容易主动攻击,安全性好于ECB,适合传输长度长的报文,是SSL、IPSec的标准。
+         缺点：  1.不利于并行计算；  2.误差传递；  3.需要初始化向量IV
+         3. CFB(Cipher FeedBack Mode，加密反馈)模式
+         优点：1.隐藏了明文模式;  2.分组密码转化为流模式;  3.可以及时加密传送小于分组的数据;
+         缺点:  1.不利于并行计算;  2.误差传送：一个明文单元损坏影响多个单元;  3.唯一的IV;
+         4. OFB(Output FeedBack，输出反馈)模式
+         优点:  1.隐藏了明文模式;  2.分组密码转化为流模式;  3.可以及时加密传送小于分组的数据;
+         缺点:  1.不利于并行计算;  2.对明文的主动攻击是可能的;  3.误差传送：一个明文单元损坏影响多个单元;
      *
      *    补充说明：
-     今天跟一个网友交流技术的时候发现他给我的一个字符串我解析不出来，搞了好久也
-     没发现什么问题，当我们再回过头来看这个字符串的时候发现这个字符串很特别不是
-     一般的字母和数字的随机组合，而是一些16进制的字符组成的字符串，对于这样的字
-     符串我们在处理的时候一定要注意，要先把这样的字符串由16进制转化成二进制再在
-     解析后的二进制的基础上进行操作。事实证明我们的处理方式是对的，并且我对于这
-     种情况进行了封装，方便大家的使用。
-     *
+         今天跟一个网友交流技术的时候发现他给我的一个字符串我解析不出来，搞了好久也
+         没发现什么问题，当我们再回过头来看这个字符串的时候发现这个字符串很特别不是
+         一般的字母和数字的随机组合，而是一些16进制的字符组成的字符串，对于这样的字
+         符串我们在处理的时候一定要注意，要先把这样的字符串由16进制转化成二进制再在
+         解析后的二进制的基础上进行操作。事实证明我们的处理方式是对的，并且我对于这
+         种情况进行了封装，方便大家的使用。
+     *  补充：本来觉得DES这种过时的加密方式几乎很少有人用了，但是今天一个网友问这个问题，那今天就补充一下DES的加密知识吧。
+     *  DES:
+        *DES(Data Encryption Standard)是分组对称密码算法。DES采用了64位的
+        分组长度和56位的密钥长度，它将64位的输入经过一系列变换得到64位的输出。解密
+        则使用了相同的步骤和相同的密钥。DES的密钥长度为64位，由于第
+        n*8(n=1,2,…8)是校验位，因此实际参与加密的长度为56位，密钥空间含有2^56个密钥。
+        *DES算法是一种分组加密机制，将明文分成N个组，然后对各个组进行加密，形成各自的密文，最后把所有的分组密文进行合并，形成最终的密文。
+     
+        *这里关于DES的介绍大家可以去网上去搜一下这样的文章，以及他的加密的过程什么的网上都有详细的介绍，我就不一一列举了，今天只简单的去介绍使用以及他跟AES加密之间的区别。
+        详细的关于DES的资料大家可以去下面这篇文章去看看讲述的很详细。
+        http://blog.csdn.net/fengbingchun/article/details/42273257
+     
+     *  AES其实就是DES的加强版，他们两个的模式十分相似，他们之间的加密模式是一样的也是分为上面介绍的ECB、CBC、CFB等几种加密模式，本来AES的产生就是为了替代DES这种加密方式，DES这种加密已经不足以支撑起现在人们的需求。相对来说他的安全强度是众多加密方式中比较低的。
+     *   回归正题DES和AES之间的区别
+     *   1、AES的加密密钥的长度最低是128位的，DES的密钥长度最多也就是64位，实际上还要排除掉8个校验位，也就是56位，密钥位数越高安全性最好这个是常识，从这一点上看AES的安全性要高于DES很多。而且一旦将校验位作为有效数据的话将不能保证DES加密数据的安全性，对运用DES来达到保密作用的系统产生数据被破译的危险，这正是DES算法在应用上的误区，留下了被人攻击、被人破译的极大隐患 。
+     *   2、AES的分组长度是128位，DES的分组长度是64位
+     *   注意：
+     *   上面我们说到了一个概念性的东西，就是密钥长度。
+     *   那是不是密钥长度是越长越好呢？我们来探讨一下这个问题
+     *   首先密钥长度越长的优点：
+         1、我们首先想到的就是对应的密钥空间就越大，安全性越高，越不容易被破解。
+     *   但是也带来了一些问题：
+         1、首先加密过程耗时跟密钥长度成正比，密钥长度越长的话加密的过程耗时时间就会越长，加密解密的开销会变大。
+     *   所以如果在性能和安全性之间选择一个折中的策略的话我觉的128未的密钥长度是比较合适的。
+     *   先说到这里吧 我先把常用的方法补充进去。
      */
     
     
     NSString*test=@"123";
-    NSString*md5_16=[GBEncodeTool getMd5_16Bit_String:test isUppercase:YES];
-    NSLog(@"md5_16-->%@",md5_16);
-    NSString*md5_32=[GBEncodeTool getMd5_32Bit_String:test isUppercase:YES];
-    NSLog(@"md5_32-->%@",md5_32);
-    NSString*sha1=[GBEncodeTool getSha1String:test isUppercase:YES];
-    NSLog(@"sha1-->%@",sha1);
-    NSString*sha256=[GBEncodeTool getSha256String:test isUppercase:YES];
-    NSLog(@"sha256-->%@",sha256);
-    NSString*sha384=[GBEncodeTool getSha384String:test isUppercase:YES];
-    NSLog(@"sha384-->%@",sha384);
-    NSString*sha512=[GBEncodeTool getSha512String:test isUppercase:YES];
-    NSLog(@"sha512-->%@",sha512);
-    NSString*encodeBase64=[GBEncodeTool encodeBase64String:test];
-    NSLog(@"base64加密-->%@",encodeBase64);
-    NSString*decodeBase64=[GBEncodeTool decodeBase64String:test];
-    NSLog(@"base64解密-->%@",decodeBase64);
-    NSString*AES=[GBEncodeTool AES256Encrypt:test WithKey:PUBLIC_APP_KEY];
-    NSLog(@"AES加密->%@",AES);
-    NSString*AESDecode=[GBEncodeTool AES256Decrypt:AES WithKey:PUBLIC_APP_KEY];
-    
-    NSLog(@"AES解密-->%@",AESDecode);
-    /** 明文 */
-    NSString*publicStr=@"E1F2629EE05D8BDEED5033A2C9F9664B";
-    
-    /** 密文 */
-    NSString*secretStr= @"17D032AB2C1186F2001B1A6385EF9720B116910DB19999171708A2D60E31126E5FC3A1186C82BF26E0E094371A9E1517";
-    NSString*hexPublickStr=[GBEncodeTool AES128HexDecrypt:secretStr Key:AES_KEY IV:AES_IV];
-    NSLog(@"16进制明文-->%@",hexPublickStr);
-    
-    NSString*AESCBC128Encrypt=[GBEncodeTool AES128Encrypt:publicStr Key:AES_KEY IV:AES_IV];
-    NSString*AESCBC128Decrypt=[GBEncodeTool AES128Decrypt:AESCBC128Encrypt Key:AES_KEY IV:AES_IV];
-    NSLog(@"AES128->CBC模式下的加密%@",AESCBC128Encrypt);
-    NSLog(@"AES128->CBC模式下的解密%@",AESCBC128Decrypt);
-    
-    /**
-     * 这种方式感觉不是很方便主要是为了公钥和密钥的周期性检测，不习惯的可以直接跳过
-     * 通过公钥和私钥文件加密和解密
-     */
-    NSString*privatePath=[[NSBundle mainBundle]pathForResource:@"private_key.p12" ofType:nil];
-    NSString*publickPath=[[NSBundle mainBundle]pathForResource:@"public_key.der" ofType:nil];
-    [GBEncodeTool configPrivateKey:privatePath Password:@"997756128"];
-    [GBEncodeTool configPublickKey:publickPath];
-    NSString*RSAEncode=[GBEncodeTool rsaEncryptText:test];
-    NSLog(@"rsa加密-->%@",RSAEncode);
-    NSString*RSADecode=[GBEncodeTool rsaDecryptText:test];
-    NSLog(@"rsa解密-->%@",RSADecode);
-    /**直接通过公钥和私钥加密和解密 */
-    NSString*rsaEncode=[GBEncodeTool rsaEncryptString:test publicKey:PUBLICK_KEY];
-    NSLog(@"RSA加密-->%@",rsaEncode);
-    NSString*rsaDecode=[GBEncodeTool rsaDecryptString:rsaEncode privateKey:PRIVATE_KEY];
-    NSLog(@"RSA解密-->%@",rsaDecode);
-    
-    
+//    NSString*md5_16=[GBEncodeTool getMd5_16Bit_String:test isUppercase:YES];
+//    NSLog(@"md5_16-->%@",md5_16);
+//    NSString*md5_32=[GBEncodeTool getMd5_32Bit_String:test isUppercase:YES];
+//    NSLog(@"md5_32-->%@",md5_32);
+//    NSString*sha1=[GBEncodeTool getSha1String:test isUppercase:YES];
+//    NSLog(@"sha1-->%@",sha1);
+//    NSString*sha256=[GBEncodeTool getSha256String:test isUppercase:YES];
+//    NSLog(@"sha256-->%@",sha256);
+//    NSString*sha384=[GBEncodeTool getSha384String:test isUppercase:YES];
+//    NSLog(@"sha384-->%@",sha384);
+//    NSString*sha512=[GBEncodeTool getSha512String:test isUppercase:YES];
+//    NSLog(@"sha512-->%@",sha512);
+//    NSString*encodeBase64=[GBEncodeTool encodeBase64String:test];
+//    NSLog(@"base64加密-->%@",encodeBase64);
+//    NSString*decodeBase64=[GBEncodeTool decodeBase64String:test];
+//    NSLog(@"base64解密-->%@",decodeBase64);
+//    NSString*AES=[GBEncodeTool AES256Encrypt:test WithKey:PUBLIC_APP_KEY];
+//    NSLog(@"AES加密->%@",AES);
+//    NSString*AESDecode=[GBEncodeTool AES256Decrypt:AES WithKey:PUBLIC_APP_KEY];
+//    NSLog(@"AES解密-->%@",AESDecode);
+//    /** 明文 */
+//    NSString*publicStr=@"E1F2629EE05D8BDEED5033A2C9F9664B";
+//    
+//    /** 密文 */
+//    NSString*secretStr= @"17D032AB2C1186F2001B1A6385EF9720B116910DB19999171708A2D60E31126E5FC3A1186C82BF26E0E094371A9E1517";
+//    NSString*hexPublickStr=[GBEncodeTool AES128HexDecrypt:secretStr Key:AES_KEY IV:AES_IV];
+//    NSLog(@"16进制明文-->%@",hexPublickStr);
+//    
+//    NSString*AESCBC128Encrypt=[GBEncodeTool AES128Encrypt:publicStr Key:AES_KEY IV:AES_IV];
+//    NSString*AESCBC128Decrypt=[GBEncodeTool AES128Decrypt:AESCBC128Encrypt Key:AES_KEY IV:AES_IV];
+//    NSLog(@"AES128->CBC模式下的加密%@",AESCBC128Encrypt);
+//    NSLog(@"AES128->CBC模式下的解密%@",AESCBC128Decrypt);
+//    
+//    /**
+//     * 这种方式感觉不是很方便主要是为了公钥和密钥的周期性检测，不习惯的可以直接跳过
+//     * 通过公钥和私钥文件加密和解密
+//     */
+//    NSString*privatePath=[[NSBundle mainBundle]pathForResource:@"private_key.p12" ofType:nil];
+//    NSString*publickPath=[[NSBundle mainBundle]pathForResource:@"public_key.der" ofType:nil];
+//    [GBEncodeTool configPrivateKey:privatePath Password:@"997756128"];
+//    [GBEncodeTool configPublickKey:publickPath];
+//    NSString*RSAEncode=[GBEncodeTool rsaEncryptText:test];
+//    NSLog(@"rsa加密-->%@",RSAEncode);
+//    NSString*RSADecode=[GBEncodeTool rsaDecryptText:test];
+//    NSLog(@"rsa解密-->%@",RSADecode);
+//    /**直接通过公钥和私钥加密和解密 */
+//    NSString*rsaEncode=[GBEncodeTool rsaEncryptString:test publicKey:PUBLICK_KEY];
+//    NSLog(@"RSA加密-->%@",rsaEncode);
+//    NSString*rsaDecode=[GBEncodeTool rsaDecryptString:rsaEncode privateKey:PRIVATE_KEY];
+//    NSLog(@"RSA解密-->%@",rsaDecode);
+    //补充的DES加密
+    NSString*DESEncodeStr=[GBEncodeTool DESEncrypt:test WithKey:DES_KEY];
+    NSString*DES_CBC_EncodeStr=[GBEncodeTool DESEncrypt:test Key:DES_KEY IV:DES_IV];
+    NSLog(@"DES加密-->%@",DESEncodeStr);
+    NSLog(@"CBC模式下的DES加密-->%@",DES_CBC_EncodeStr);
+    //补充的DES解密
+    NSString*DESDecodeStr=[GBEncodeTool DESDecrypt:DESEncodeStr WithKey:DES_KEY];
+    NSString*DES_CBC_DecodeStr=[GBEncodeTool DESDecrypt:DES_CBC_EncodeStr Key:DES_KEY IV:DES_IV];
+    NSLog(@"DES解密-->%@",DESDecodeStr);
+    NSLog(@"CBC模式下的DES解密-->%@",DES_CBC_DecodeStr);
+
 }
 
 - (void)didReceiveMemoryWarning {
