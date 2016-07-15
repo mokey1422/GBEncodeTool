@@ -4,7 +4,7 @@
 //
 //  Created by 张国兵 on 15/9/19.
 //  Copyright (c) 2015年 zhangguobing. All rights reserved.
-//
+
 
 #import "GBEncodeTool.h"
 #import <CommonCrypto/CommonDigest.h>
@@ -112,23 +112,25 @@
 //DES加密
 + (NSString*)DESEncrypt:(NSString *)plainText WithKey:(NSString *)key{
     
+    char keyPtr[kCCKeySizeDES+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
     NSData *data = [plainText dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-    unsigned char buffer[1024];
-    memset(buffer, 0, sizeof(char));
+    NSUInteger dataLength = [data length];
+    size_t bufferSize = dataLength + kCCBlockSizeDES;
+    void *buffer = malloc(bufferSize);
     size_t numBytesEncrypted = 0;
-    
     CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
                                           kCCAlgorithmDES,
-                                          kCCOptionPKCS7Padding| kCCOptionECBMode,
-                                          [key UTF8String],
-                                          kCCKeySizeDES,
-                                          nil,
+                                          kCCOptionPKCS7Padding | kCCOptionECBMode,
+                                          keyPtr,
+                                          kCCBlockSizeDES,
+                                          NULL,
                                           [data bytes],
-                                          [data length],
+                                          dataLength,
                                           buffer,
-                                          1024,
+                                          bufferSize,
                                           &numBytesEncrypted);
-    
     NSString* encryptText;
     if (cryptStatus == kCCSuccess) {
         NSData *dataTemp = [NSData dataWithBytes:buffer length:(NSUInteger)numBytesEncrypted];
@@ -250,7 +252,6 @@
     
 }
 // sha384加密方式
-
 + (NSString *)getSha384String:(NSString *)srcString
                   isUppercase:(BOOL)isUppercase {
     const char *cstr = [srcString cStringUsingEncoding:NSUTF8StringEncoding];
@@ -273,9 +274,7 @@
     
     
 }
-
 // sha512加密方式
-
 + (NSString*) getSha512String:(NSString*)srcString
                   isUppercase:(BOOL)isUppercase {
     const char *cstr = [srcString cStringUsingEncoding:NSUTF8StringEncoding];
@@ -322,106 +321,10 @@
     NSString *base64String = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     return base64String;
 }
-
-/**CBC模式下的AES128加密 */
-+(NSString*)AES128Encrypt:(NSString *)plainText
-                      Key:(NSString *)key
-                       IV:(NSString*)iv{
-    
-    char keyPtr[kCCKeySizeAES128+1];
-    memset(keyPtr, 0, sizeof(keyPtr));
-    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
-    
-    char ivPtr[kCCBlockSizeAES128+1];
-    memset(ivPtr, 0, sizeof(ivPtr));
-    [iv getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
-    
-    NSData* data = [plainText dataUsingEncoding:NSUTF8StringEncoding];
-    NSUInteger dataLength = [data length];
-    
-    int diff = kCCKeySizeAES128 - (dataLength % kCCKeySizeAES128);
-    int newSize = 0;
-    
-    if(diff > 0)
-    {
-        newSize = dataLength + diff;
-    }
-    
-    char dataPtr[newSize];
-    memcpy(dataPtr, [data bytes], [data length]);
-    for(int i = 0; i < diff; i++)
-    {
-        dataPtr[i + dataLength] = 0x00;
-    }
-    
-    size_t bufferSize = newSize + kCCBlockSizeAES128;
-    void *buffer = malloc(bufferSize);
-    memset(buffer, 0, bufferSize);
-    
-    size_t numBytesCrypted = 0;
-    
-    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
-                                          kCCAlgorithmAES128,
-                                          0x0000,               //No padding
-                                          keyPtr,
-                                          kCCKeySizeAES128,
-                                          ivPtr,
-                                          dataPtr,
-                                          sizeof(dataPtr),
-                                          buffer,
-                                          bufferSize,
-                                          &numBytesCrypted);
-    
-    if (cryptStatus == kCCSuccess) {
-        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
-        return [GTMBase64 stringByEncodingData:resultData];
-    }
-    free(buffer);
-    return nil;
-
-}
-/**CBC模式下的AES128解密 */
-+(NSString*)AES128Decrypt:(NSString *)encryptText
-                      Key:(NSString *)key
-                       IV:(NSString*)iv{
-    
-    char keyPtr[kCCKeySizeAES128 + 1];
-    memset(keyPtr, 0, sizeof(keyPtr));
-    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
-    
-    char ivPtr[kCCBlockSizeAES128 + 1];
-    memset(ivPtr, 0, sizeof(ivPtr));
-    [iv getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
-    
-    NSData *data = [GTMBase64 decodeData:[encryptText dataUsingEncoding:NSUTF8StringEncoding]];
-    NSUInteger dataLength = [data length];
-    size_t bufferSize = dataLength + kCCBlockSizeAES128;
-    void *buffer = malloc(bufferSize);
-    
-    size_t numBytesCrypted = 0;
-    CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
-                                          kCCAlgorithmAES128,
-                                          0x0000,
-                                          keyPtr,
-                                          kCCBlockSizeAES128,
-                                          ivPtr,
-                                          [data bytes],
-                                          dataLength,
-                                          buffer,
-                                          bufferSize,
-                                          &numBytesCrypted);
-    if (cryptStatus == kCCSuccess) {
-        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
-        return [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
-    }
-    free(buffer);
-    return nil;
-   
-}
 /**AES128 16进制字符串解密 */
 +(NSString*)AES128HexDecrypt:(NSString *)HexPlainText
-                      Key:(NSString *)key
-                       IV:(NSString*)iv{
+                         Key:(NSString *)key
+                          IV:(NSString*)iv{
     
     //16进制转data
     const char* cs = HexPlainText.UTF8String;
@@ -441,7 +344,6 @@
         }
     }
     NSData * data = [NSData dataWithBytes:bytes length:count / 2];
-    
     char keyPtr[kCCKeySizeAES128 + 1];
     memset(keyPtr, 0, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
@@ -456,7 +358,7 @@
     size_t numBytesCrypted = 0;
     CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
                                           kCCAlgorithmAES128,
-                                          0x0000,
+                                          kCCOptionPKCS7Padding,
                                           keyPtr,
                                           kCCBlockSizeAES128,
                                           ivPtr,
@@ -480,7 +382,7 @@
     //16进制转data
     const char* cs = HexPlainText.UTF8String;
     
-    int count = strlen(cs);
+    unsigned long count = strlen(cs);
     
     int8_t bytes[count / 2];
     
@@ -510,7 +412,7 @@
     size_t numBytesCrypted = 0;
     CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
                                           kCCAlgorithmAES128,
-                                          0x0000,
+                                          kCCOptionPKCS7Padding,
                                           keyPtr,
                                           kCCBlockSizeAES128,
                                           ivPtr,
@@ -526,59 +428,117 @@
     free(buffer);
     return nil;
 }
+/**CBC模式下的AES128加密 */
++(NSString*)AES128Encrypt:(NSString *)plainText
+                      Key:(NSString *)key
+                       IV:(NSString*)iv{
+    
+    char keyPtr[kCCKeySizeAES128+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    
+    char ivPtr[kCCKeySizeAES128+1];
+    memset(ivPtr, 0, sizeof(ivPtr));
+    [iv getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
 
+    NSData* data = [plainText dataUsingEncoding:NSUTF8StringEncoding];
+    NSUInteger dataLength = [data length];
+    
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    size_t numBytesEncrypted = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
+                                          kCCAlgorithmAES128,
+                                          kCCOptionPKCS7Padding,
+                                          keyPtr,
+                                          kCCBlockSizeAES128,
+                                          ivPtr,
+                                          [data bytes],
+                                          dataLength,
+                                          buffer,
+                                          bufferSize,
+                                          &numBytesEncrypted);
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
+        return [GTMBase64 stringByEncodingData:resultData];
+    
+    }
+    free(buffer);
+    return nil;
+
+}
+/**CBC模式下的AES128解密 */
++(NSString*)AES128Decrypt:(NSString *)encryptText
+                      Key:(NSString *)key
+                       IV:(NSString*)iv{
+    
+    char keyPtr[kCCKeySizeAES128+1];
+    bzero(keyPtr, sizeof(keyPtr));
+    [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
+    
+    char ivPtr[kCCKeySizeAES128+1];
+    memset(ivPtr, 0, sizeof(ivPtr));
+    [iv getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
+    NSData *data = [GTMBase64 decodeData:[encryptText dataUsingEncoding:NSUTF8StringEncoding]];
+    NSUInteger dataLength = [data length];
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
+    void *buffer = malloc(bufferSize);
+    size_t numBytesDecrypted = 0;
+    CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
+                                          kCCAlgorithmAES128,
+                                          kCCOptionPKCS7Padding,
+                                          keyPtr,
+                                          kCCBlockSizeAES128,
+                                          ivPtr,
+                                          [data bytes],
+                                          dataLength,
+                                          buffer,
+                                          bufferSize,
+                                          &numBytesDecrypted);
+    
+
+    if (cryptStatus == kCCSuccess) {
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesDecrypted];
+        return [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
+    }
+    free(buffer);
+    return nil;
+   
+}
 /**CBC模式下的AES256加密 */
 +(NSString*)AES256Encrypt:(NSString *)plainText
                       Key:(NSString *)key
                        IV:(NSString*)iv{
     
     char keyPtr[kCCKeySizeAES256+1];
-    memset(keyPtr, 0, sizeof(keyPtr));
+    bzero(keyPtr, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
     
-    char ivPtr[kCCBlockSizeAES128+1];
+    char ivPtr[kCCKeySizeAES256+1];
     memset(ivPtr, 0, sizeof(ivPtr));
     [iv getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
     
     NSData* data = [plainText dataUsingEncoding:NSUTF8StringEncoding];
     NSUInteger dataLength = [data length];
     
-    int diff = kCCKeySizeAES128 - (dataLength % kCCKeySizeAES128);
-    int newSize = 0;
-    
-    if(diff > 0)
-    {
-        newSize = dataLength + diff;
-    }
-    
-    char dataPtr[newSize];
-    memcpy(dataPtr, [data bytes], [data length]);
-    for(int i = 0; i < diff; i++)
-    {
-        dataPtr[i + dataLength] = 0x00;
-    }
-    
-    size_t bufferSize = newSize + kCCBlockSizeAES128;
+    size_t bufferSize = dataLength + kCCBlockSizeAES128;
     void *buffer = malloc(bufferSize);
-    memset(buffer, 0, bufferSize);
-    
-    size_t numBytesCrypted = 0;
-    
+    size_t numBytesEncrypted = 0;
     CCCryptorStatus cryptStatus = CCCrypt(kCCEncrypt,
                                           kCCAlgorithmAES128,
-                                          0x0000,               //No padding
+                                          kCCOptionPKCS7Padding,
                                           keyPtr,
-                                          kCCKeySizeAES128,
+                                          kCCBlockSizeAES128,
                                           ivPtr,
-                                          dataPtr,
-                                          sizeof(dataPtr),
+                                          [data bytes],
+                                          dataLength,
                                           buffer,
                                           bufferSize,
-                                          &numBytesCrypted);
-    
+                                          &numBytesEncrypted);
     if (cryptStatus == kCCSuccess) {
-        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesEncrypted];
         return [GTMBase64 stringByEncodingData:resultData];
+        
     }
     free(buffer);
     return nil;
@@ -589,23 +549,21 @@
                       Key:(NSString *)key
                        IV:(NSString*)iv{
     
-    char keyPtr[kCCKeySizeAES256 + 1];
-    memset(keyPtr, 0, sizeof(keyPtr));
+    char keyPtr[kCCKeySizeAES256+1];
+    bzero(keyPtr, sizeof(keyPtr));
     [key getCString:keyPtr maxLength:sizeof(keyPtr) encoding:NSUTF8StringEncoding];
     
-    char ivPtr[kCCBlockSizeAES128 + 1];
+    char ivPtr[kCCKeySizeAES256+1];
     memset(ivPtr, 0, sizeof(ivPtr));
     [iv getCString:ivPtr maxLength:sizeof(ivPtr) encoding:NSUTF8StringEncoding];
-    
     NSData *data = [GTMBase64 decodeData:[encryptText dataUsingEncoding:NSUTF8StringEncoding]];
     NSUInteger dataLength = [data length];
     size_t bufferSize = dataLength + kCCBlockSizeAES128;
     void *buffer = malloc(bufferSize);
-    
-    size_t numBytesCrypted = 0;
+    size_t numBytesDecrypted = 0;
     CCCryptorStatus cryptStatus = CCCrypt(kCCDecrypt,
                                           kCCAlgorithmAES128,
-                                          0x0000,
+                                          kCCOptionPKCS7Padding,
                                           keyPtr,
                                           kCCBlockSizeAES128,
                                           ivPtr,
@@ -613,9 +571,11 @@
                                           dataLength,
                                           buffer,
                                           bufferSize,
-                                          &numBytesCrypted);
+                                          &numBytesDecrypted);
+    
+    
     if (cryptStatus == kCCSuccess) {
-        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesCrypted];
+        NSData *resultData = [NSData dataWithBytesNoCopy:buffer length:numBytesDecrypted];
         return [[NSString alloc] initWithData:resultData encoding:NSUTF8StringEncoding];
     }
     free(buffer);

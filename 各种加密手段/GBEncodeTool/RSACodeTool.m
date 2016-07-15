@@ -41,9 +41,6 @@
 #pragma mark - 加密相关
 - (void)loadPublicKeyWithPath:(NSString *)derFilePath {
     NSData *derData = [[NSData alloc] initWithContentsOfFile:derFilePath];
-    
-    NSString*conten=[[NSString alloc]initWithData:derData encoding:NSUTF8StringEncoding];
-    NSLog(@"%@",conten);
     if (derData.length > 0) {
         [self loadPublicKeyWithData:derData];
     } else {
@@ -147,11 +144,9 @@
             privateKeyRef = NULL;
         }
     }
-    
     _privateKey = privateKeyRef;
     
 }
-
 - (NSString *)rsaDecryptText:(NSString *)text {
     
     NSData *tempData = [text dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
@@ -165,7 +160,6 @@
 
 - (NSData *)rsaDecryptData:(NSData *)data {
     SecKeyRef key = _privateKey;
-    NSLog(@"%@",_privateKey);
     size_t cipherLen = [data length];
     void *cipher = malloc(cipherLen);
     
@@ -191,7 +185,6 @@ static NSString *base64_encode_data(NSData *data){
     NSString *ret = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
     return ret;
 }
-
 static NSData *base64_decode(NSString *str){
     NSData *data = [[NSData alloc] initWithBase64EncodedString:str options:NSDataBase64DecodingIgnoreUnknownCharacters];
     return data;

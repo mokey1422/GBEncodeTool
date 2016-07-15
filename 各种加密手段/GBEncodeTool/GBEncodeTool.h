@@ -172,7 +172,7 @@
  *
  *  @return 密文
  */
-+(NSString*)AES128Encrypt:(NSString *)plainText
++ (NSString*)AES128Encrypt:(NSString *)plainText
                       Key:(NSString *)key
                        IV:(NSString*)iv;
 /**
@@ -184,7 +184,7 @@
  *
  *  @return 明文
  */
-+(NSString*)AES128Decrypt:(NSString *)plainText
++ (NSString*)AES128Decrypt:(NSString *)plainText
                       Key:(NSString *)key
                        IV:(NSString*)iv;
 /**
@@ -197,7 +197,7 @@
  *  @return 明文
  */
 
-+(NSString*)AES128HexDecrypt:(NSString *)HexPlainText
++ (NSString*)AES128HexDecrypt:(NSString *)HexPlainText
                          Key:(NSString *)key
                           IV:(NSString*)iv;
 /**
@@ -209,7 +209,7 @@
  *
  *  @return 明文
  */
-+(NSString*)AES256HexDecrypt:(NSString *)HexPlainText
++ (NSString*)AES256HexDecrypt:(NSString *)HexPlainText
                          Key:(NSString *)key
                           IV:(NSString*)iv;
 /**
@@ -239,7 +239,7 @@
  *
  *  @return 密文
  */
-+(NSString*)AES256Encrypt:(NSString *)plainText
++ (NSString*)AES256Encrypt:(NSString *)plainText
                       Key:(NSString *)key
                        IV:(NSString*)iv;
 /**
@@ -251,7 +251,7 @@
  *
  *  @return 明文
  */
-+(NSString*)AES256Decrypt:(NSString *)plainText
++ (NSString*)AES256Decrypt:(NSString *)plainText
                       Key:(NSString *)key
                        IV:(NSString*)iv;
 /**
@@ -282,13 +282,13 @@
  *  应用场景：一般我们在使用http或者socket上传或者下载文件的时候，经常会在完成之后经行一次MD5值得校验（尤其是在断点续传的时候用的更
  多），校验MD5值是为了防止在传输的过程当中丢包或者数据包被篡改
  */
-+(NSString*)getFileMD5:(NSString*)path;
++ (NSString*)getFileMD5:(NSString*)path;
 /**
  *  配置公钥
  *  public_key.der公钥
  *  公钥负责加密
  */
-+(void)configPublickKey:(NSString*)publickKeyPath;
++ (void)configPublickKey:(NSString*)publickKeyPath;
 /**
  *  配置私钥
  *  private_key.p12私钥
@@ -296,7 +296,7 @@
  *  @param PrivateKeyPath 私钥路径
  *  @param p12Password    私钥密码
  */
-+(void)configPrivateKey:(NSString *)privateKeyPath
++ (void)configPrivateKey:(NSString *)privateKeyPath
                Password:(NSString *)p12Password;
 /**
  *  rsa加密
@@ -305,7 +305,7 @@
  *
  *  @return 密文 NSString
  */
-+(NSString *)rsaEncryptText:(NSString *)text;
++ (NSString *)rsaEncryptText:(NSString *)text;
 /**
  *  rsa解密
  *
@@ -313,7 +313,7 @@
  *
  *  @return 明文
  */
-+(NSString *)rsaDecryptText:(NSString *)text;
++ (NSString *)rsaDecryptText:(NSString *)text;
 
 /**
  *  rsa加密

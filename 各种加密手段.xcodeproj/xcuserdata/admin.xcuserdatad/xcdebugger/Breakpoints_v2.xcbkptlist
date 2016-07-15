@@ -10,38 +10,6 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "&#x5404;&#x79cd;&#x52a0;&#x5bc6;&#x624b;&#x6bb5;/GBEncodeTool/GBEncodeTool.m"
-            timestampString = "490083993.911052"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "46"
-            endingLineNumber = "46"
-            landmarkName = "+DESDecrypt:Key:IV:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x5404;&#x79cd;&#x52a0;&#x5bc6;&#x624b;&#x6bb5;/GBEncodeTool/GBEncodeTool.m"
-            timestampString = "490083999.830468"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "+DESDecrypt:Key:IV:"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "&#x5404;&#x79cd;&#x52a0;&#x5bc6;&#x624b;&#x6bb5;/GBEncodeTool/GBEncodeTool.m"
             timestampString = "490084000.542876"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"

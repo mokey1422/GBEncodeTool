@@ -8,7 +8,7 @@
 
 #import "ViewController.h"
 #import "GBEncodeTool.h"
-
+//(key和iv向量这里是16位的)
 #define AES_KEY @"D5B6D8584F94B434"
 #define AES_IV @"205681D89D731A8E"
 #define DES_KEY @"D5B6D8584F94B434"
@@ -30,18 +30,18 @@
      *
      2、简单的概念
      
-     明文：加密前的信息
-     密文：机密后的信息
-     加密算法：加密或解密的算法
-     密钥：算法使用的钥匙（读作miyao，正确应该是miyue，但是大家都读miyao）
-     *
-     简单的例子
-     
-     将123456每位数字都加1后得到234567，
-     其中123456就是明文，234567就是密文，加密密钥就是1，加密算法是每位加
+         明文：加密前的信息
+         密文：机密后的信息
+         加密算法：加密或解密的算法
+         密钥：算法使用的钥匙（读作miyao，正确应该是miyue，但是大家都读miyao）
+         *
+         简单的例子
+         
+         将123456每位数字都加1后得到234567，
+         其中123456就是明文，234567就是密文，加密密钥就是1，加密算法是每位加
      
      * 3、加密算法种类
-     按照加密的方式我们可以将加密算法大体分成一下三种：
+         按照加密的方式我们可以将加密算法大体分成一下三种：
      *      对称加密算法（加密和解密算法是对称的可能有点抽象你可以理解成同一把钥匙）
      *      非对称加密算法（加密和解密算法是非对称的可以理解成加密的时候是一把钥匙解密的时候是一把钥匙，典型的就是rsa公钥和私钥）
      *      经典哈希算法（哈希算法是一种散列算法，有个特殊性是它是不可逆只能通过穷举法超大量的计算才可能算出，一般几率很小，还有就是你同一段的明文两次加密出来的结果是不一样的）
@@ -101,6 +101,7 @@
      *   那是不是密钥长度是越长越好呢？我们来探讨一下这个问题
      *   首先密钥长度越长的优点：
          1、我们首先想到的就是对应的密钥空间就越大，安全性越高，越不容易被破解。
+         已知最好的攻击需要 2n步才能破解某个算法 n代表了密钥长度。
      *   但是也带来了一些问题：
          1、首先加密过程耗时跟密钥长度成正比，密钥长度越长的话加密的过程耗时时间就会越长，加密解密的开销会变大。
      *   所以如果在性能和安全性之间选择一个折中的策略的话我觉的128未的密钥长度是比较合适的。
@@ -109,68 +110,101 @@
     
     
     NSString*test=@"123";
-//    NSString*md5_16=[GBEncodeTool getMd5_16Bit_String:test isUppercase:YES];
-//    NSLog(@"md5_16-->%@",md5_16);
-//    NSString*md5_32=[GBEncodeTool getMd5_32Bit_String:test isUppercase:YES];
-//    NSLog(@"md5_32-->%@",md5_32);
-//    NSString*sha1=[GBEncodeTool getSha1String:test isUppercase:YES];
-//    NSLog(@"sha1-->%@",sha1);
-//    NSString*sha256=[GBEncodeTool getSha256String:test isUppercase:YES];
-//    NSLog(@"sha256-->%@",sha256);
-//    NSString*sha384=[GBEncodeTool getSha384String:test isUppercase:YES];
-//    NSLog(@"sha384-->%@",sha384);
-//    NSString*sha512=[GBEncodeTool getSha512String:test isUppercase:YES];
-//    NSLog(@"sha512-->%@",sha512);
-//    NSString*encodeBase64=[GBEncodeTool encodeBase64String:test];
-//    NSLog(@"base64加密-->%@",encodeBase64);
-//    NSString*decodeBase64=[GBEncodeTool decodeBase64String:test];
-//    NSLog(@"base64解密-->%@",decodeBase64);
-//    NSString*AES=[GBEncodeTool AES256Encrypt:test WithKey:PUBLIC_APP_KEY];
-//    NSLog(@"AES加密->%@",AES);
-//    NSString*AESDecode=[GBEncodeTool AES256Decrypt:AES WithKey:PUBLIC_APP_KEY];
-//    NSLog(@"AES解密-->%@",AESDecode);
-//    /** 明文 */
-//    NSString*publicStr=@"E1F2629EE05D8BDEED5033A2C9F9664B";
-//    
-//    /** 密文 */
-//    NSString*secretStr= @"17D032AB2C1186F2001B1A6385EF9720B116910DB19999171708A2D60E31126E5FC3A1186C82BF26E0E094371A9E1517";
-//    NSString*hexPublickStr=[GBEncodeTool AES128HexDecrypt:secretStr Key:AES_KEY IV:AES_IV];
-//    NSLog(@"16进制明文-->%@",hexPublickStr);
-//    
-//    NSString*AESCBC128Encrypt=[GBEncodeTool AES128Encrypt:publicStr Key:AES_KEY IV:AES_IV];
-//    NSString*AESCBC128Decrypt=[GBEncodeTool AES128Decrypt:AESCBC128Encrypt Key:AES_KEY IV:AES_IV];
-//    NSLog(@"AES128->CBC模式下的加密%@",AESCBC128Encrypt);
-//    NSLog(@"AES128->CBC模式下的解密%@",AESCBC128Decrypt);
-//    
-//    /**
-//     * 这种方式感觉不是很方便主要是为了公钥和密钥的周期性检测，不习惯的可以直接跳过
-//     * 通过公钥和私钥文件加密和解密
-//     */
-//    NSString*privatePath=[[NSBundle mainBundle]pathForResource:@"private_key.p12" ofType:nil];
-//    NSString*publickPath=[[NSBundle mainBundle]pathForResource:@"public_key.der" ofType:nil];
-//    [GBEncodeTool configPrivateKey:privatePath Password:@"997756128"];
-//    [GBEncodeTool configPublickKey:publickPath];
-//    NSString*RSAEncode=[GBEncodeTool rsaEncryptText:test];
-//    NSLog(@"rsa加密-->%@",RSAEncode);
-//    NSString*RSADecode=[GBEncodeTool rsaDecryptText:test];
-//    NSLog(@"rsa解密-->%@",RSADecode);
-//    /**直接通过公钥和私钥加密和解密 */
-//    NSString*rsaEncode=[GBEncodeTool rsaEncryptString:test publicKey:PUBLICK_KEY];
-//    NSLog(@"RSA加密-->%@",rsaEncode);
-//    NSString*rsaDecode=[GBEncodeTool rsaDecryptString:rsaEncode privateKey:PRIVATE_KEY];
-//    NSLog(@"RSA解密-->%@",rsaDecode);
-    //补充的DES加密
+    NSString*md5_16=[GBEncodeTool getMd5_16Bit_String:test isUppercase:YES];
+    NSLog(@"md5_16-->%@",md5_16);
+    NSString*md5_32=[GBEncodeTool getMd5_32Bit_String:test isUppercase:YES];
+    NSLog(@"md5_32-->%@",md5_32);
+    NSString*sha1=[GBEncodeTool getSha1String:test isUppercase:YES];
+    NSLog(@"sha1-->%@",sha1);
+    NSString*sha256=[GBEncodeTool getSha256String:test isUppercase:YES];
+    NSLog(@"sha256-->%@",sha256);
+    NSString*sha384=[GBEncodeTool getSha384String:test isUppercase:YES];
+    NSLog(@"sha384-->%@",sha384);
+    NSString*sha512=[GBEncodeTool getSha512String:test isUppercase:YES];
+    NSLog(@"sha512-->%@",sha512);
+    NSString*encodeBase64=[GBEncodeTool encodeBase64String:test];
+    NSLog(@"base64加密-->%@",encodeBase64);
+    NSString*decodeBase64=[GBEncodeTool decodeBase64String:test];
+    NSLog(@"base64解密-->%@",decodeBase64);
+    NSString*AES128Encode=[GBEncodeTool AES128Encrypt:test WithKey:PUBLIC_APP_KEY];
+    NSLog(@"AES128加密->%@",AES128Encode);
+    NSString*AES128Decode=[GBEncodeTool AES128Decrypt:AES128Encode WithKey:PUBLIC_APP_KEY];
+    NSLog(@"AES128解密-->%@",AES128Decode);
+    NSString*AES256Encode=[GBEncodeTool AES256Encrypt:test WithKey:PUBLIC_APP_KEY];
+    NSLog(@"AES256加密->%@",AES256Encode);
+    NSString*AES256Decode=[GBEncodeTool AES256Decrypt:AES256Encode WithKey:PUBLIC_APP_KEY];
+    NSLog(@"AES256解密-->%@",AES256Decode);
+    
+    NSString*AESCBC128Encrypt=[GBEncodeTool AES128Encrypt:test Key:AES_KEY IV:AES_IV];
+    NSString*AESCBC128Decrypt=[GBEncodeTool AES128Decrypt:AESCBC128Encrypt Key:AES_KEY IV:AES_IV];
+    NSLog(@"AES128->CBC模式下的加密%@",AESCBC128Encrypt);
+    NSLog(@"AES128->CBC模式下的解密%@",AESCBC128Decrypt);
+    NSString*AESCBC256Encrypt=[GBEncodeTool AES128Encrypt:test Key:AES_KEY IV:AES_IV];
+    NSString*AESCBC256Decrypt=[GBEncodeTool AES128Decrypt:AESCBC256Encrypt Key:AES_KEY IV:AES_IV];
+    NSLog(@"AES256->CBC模式下的加密%@",AESCBC256Encrypt);
+    NSLog(@"AES256->CBC模式下的解密%@",AESCBC256Decrypt);
+    
+    /**
+     * 这种方式感觉不是很方便主要是为了公钥和密钥的周期性检测，不习惯的可以直接跳过
+     * 通过公钥和私钥文件加密和解密
+     */
+    NSString*privatePath=[[NSBundle mainBundle]pathForResource:@"private_key.p12" ofType:nil];
+    NSString*publickPath=[[NSBundle mainBundle]pathForResource:@"public_key.der" ofType:nil];
+    [GBEncodeTool configPrivateKey:privatePath Password:@"997756128"];
+    [GBEncodeTool configPublickKey:publickPath];
+    NSString*RSAEncode=[GBEncodeTool rsaEncryptText:test];
+    NSLog(@"rsa加密-->%@",RSAEncode);
+    NSString*RSADecode=[GBEncodeTool rsaDecryptText:RSAEncode];
+    NSLog(@"rsa解密-->%@",RSADecode);
+    /**直接通过公钥和私钥加密和解密 */
+    NSString*rsaEncode=[GBEncodeTool rsaEncryptString:test publicKey:PUBLICK_KEY];
+    NSLog(@"RSA加密-->%@",rsaEncode);
+    NSString*rsaDecode=[GBEncodeTool rsaDecryptString:rsaEncode privateKey:PRIVATE_KEY];
+    NSLog(@"RSA解密-->%@",rsaDecode);
+   //补充的DES加密
     NSString*DESEncodeStr=[GBEncodeTool DESEncrypt:test WithKey:DES_KEY];
     NSString*DES_CBC_EncodeStr=[GBEncodeTool DESEncrypt:test Key:DES_KEY IV:DES_IV];
     NSLog(@"DES加密-->%@",DESEncodeStr);
-    NSLog(@"CBC模式下的DES加密-->%@",DES_CBC_EncodeStr);
+    NSLog(@"CBC模式下的DES加x密-->%@",DES_CBC_EncodeStr);
     //补充的DES解密
     NSString*DESDecodeStr=[GBEncodeTool DESDecrypt:DESEncodeStr WithKey:DES_KEY];
     NSString*DES_CBC_DecodeStr=[GBEncodeTool DESDecrypt:DES_CBC_EncodeStr Key:DES_KEY IV:DES_IV];
     NSLog(@"DES解密-->%@",DESDecodeStr);
     NSLog(@"CBC模式下的DES解密-->%@",DES_CBC_DecodeStr);
+    
+    /** 明文 */
+    NSString*publicStr=@"E1F2629EE05D8BDEED5033A2C9F9664B";
+    /** 密文 */
+    NSString*secretStr= @"17D032AB2C1186F2001B1A6385EF9720B116910DB19999171708A2D60E31126E5FC3A1186C82BF26E0E094371A9E1517";
+    NSString*hexPublickStr=[GBEncodeTool AES128HexDecrypt:secretStr Key:AES_KEY IV:AES_IV];
+    NSLog(@"16进制明文-->%@",hexPublickStr);
+    
+    
+    /**
+     *  补充：公钥和密钥的生成方法
+     *
+        生成1024位私钥
+        openssl genrsa -out private_key.pem 1024
+        
+        // 根据私钥生成CSR文件
+        openssl req -new -key private_key.pem -out rsaCertReq.csr
+        
+        // 根据私钥和CSR文件生成crt文件
+        openssl x509 -req -days 3650 -in rsaCertReq.csr -signkey private_key.pem -out rsaCert.crt
+        
+        // 为IOS端生成公钥der文件
+        openssl x509 -outform der -in rsaCert.crt -out public_key.der
+        
+        // 将私钥导出为这p12文件
+        openssl pkcs12 -export -out private_key.p12 -inkey private_key.pem -in rsaCert.crt
+    
+     *
+     */
+       
+    
 
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
