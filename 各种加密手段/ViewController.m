@@ -148,10 +148,16 @@
      * 这种方式感觉不是很方便主要是为了公钥和密钥的周期性检测，不习惯的可以直接跳过
      * 通过公钥和私钥文件加密和解密
      */
-    NSString*privatePath=[[NSBundle mainBundle]pathForResource:@"private_key.p12" ofType:nil];
-    NSString*publickPath=[[NSBundle mainBundle]pathForResource:@"public_key.der" ofType:nil];
-    [GBEncodeTool configPrivateKey:privatePath Password:@"997756128"];
-    [GBEncodeTool configPublickKey:publickPath];
+    //支持pfx和p12两种格式
+    NSString*privatePath1=[[NSBundle mainBundle]pathForResource:@"private_key.p12" ofType:nil];
+    NSString*publickPath1=[[NSBundle mainBundle]pathForResource:@"public_key.der" ofType:nil];
+    [GBEncodeTool configPrivateKey:privatePath1 Password:@"997756128"];
+    [GBEncodeTool configPublickKey:publickPath1];
+//    NSString*privatePath2=[[NSBundle mainBundle]pathForResource:@"private_key.pfx" ofType:nil];
+//    NSString*publickPath2=[[NSBundle mainBundle]pathForResource:@"rsaCert.der" ofType:nil];
+//    [GBEncodeTool configPrivateKey:privatePath2 Password:@"997756128"];
+//    [GBEncodeTool configPublickKey:publickPath2];
+    
     NSString*RSAEncode=[GBEncodeTool rsaEncryptText:test];
     NSLog(@"rsa加密-->%@",RSAEncode);
     NSString*RSADecode=[GBEncodeTool rsaDecryptText:RSAEncode];
@@ -197,10 +203,50 @@
         
         // 将私钥导出为这p12文件
         openssl pkcs12 -export -out private_key.p12 -inkey private_key.pem -in rsaCert.crt
-    
      *
      */
-       
+    
+    /**
+     *  生成ios可引用的私有秘钥文件.pfx:
+     *
+     *  1. OpenSSL rsa -in private_key.pem -out private_key.key
+        2. OpenSSL req -new -key private_key.key -out private_key.crt
+        3. OpenSSL x509 -req -days 3650 -in private_key.crt -signkey private_key.key -out rsaCert.crt
+        4. OpenSSL x509 -outform der -in rsaCert.crt -out rsaCert.der
+        5. OpenSSL pkcs12 -export -out private_key.pfx -inkey private_key.key -in rsaCert.crt
+        private_key.pfx即为生成的文件
+     *  老规矩在补充知识点之前呢先来了解一下我们接下来要使用的概念
+     *  补充关于证书的一些知识点
+     *   PKCS 全称是 Public-Key Cryptography Standards ，是由 RSA 实验室与其它安全系统开发商为促进公钥密码的发展而制订的一系列标准，PKCS 目前共发布过 15 个标准。
+         常用的有： 
+         1、PKCS#12 Personal Information Exchange Syntax Standard  X.
+         2、509是常见通用的证书格式。所有的证书都符合为Public Key Infrastructure (PKI) 制定的 ITU-T X509 国际标准。
+         3、常用格式后缀
+            PKCS#12 常用的后缀有： .P12 .PFX
+            X.509 DER 编码(ASCII)的后缀是： .DER .CER .CRT
+            X.509 PEM 编码(Base64)的后缀是： .PEM .CER .CRT
+            .cer/.crt是用于存放证书，它是2进制形式存放的，不含私钥。
+            .pem跟crt/cer的区别是它以Ascii来表示。
+            .der是windows下的证书格式，以2进制形式存放。
+            pfx/p12用于存放个人证书/私钥，他通常包含保护密码，2进制方式
+            p10是证书请求
+     
+          4、x509
+             x509是数字证书的规范，P7和P12是两种封装形式。比如说同样的电影，有的是avi格式，有的是mpg，大概就这个意思。
+             P7一般是把证书分成两个文件，一个公钥一个私钥，有PEM和DER两种编码方式。PEM比较多见，就是纯文本的，P7一般是分发公钥用，看到的就是一串可见字符串，扩展名经常是.crt,.cer,.key等。DER是二进制编码。
+             P12是把证书压成一个文件，.pfx 。主要是考虑分发证书，私钥是要绝对保密的，不能随便以文本方式散播。所以P7格式不适合分发。.pfx中可以加密码保护，所以相对安全些
+          *
+             X509   是证书规范，一般只用于公布公钥
+             PKCS#7 是消息语法 （常用于数字签名与加密）
+             PKCS#12 个人消息交换与打包语法 （如.PFX .P12）打包成带公钥与私钥
+             还有其它常用的是PKCS#10 是证书请求语法。
+     
+     
+     
+     */
+    
+    
+
     
 
 }

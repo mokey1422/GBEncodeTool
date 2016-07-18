@@ -11,6 +11,7 @@
 @interface RSACodeTool : NSObject
 // 单例对象
 +(id)sharedInstance;
+
 // 加密相关
 /**
  *  设置公钥
@@ -18,6 +19,15 @@
  *  derFilePath 公钥配置路径
  */
 - (void)loadPublicKeyWithPath:(NSString *)derFilePath;
+/**
+ *  配置密钥
+ *  因为这里导入的是p12文件所以需要密码
+ *  还可以支持pfx格式文件
+ *  @param p12FilePath p12文件路径/pfx文件路径
+ *  @param p12Password 授权密码
+ */
+- (void)loadPrivateKeyWithPath:(NSString *)p12FilePath password:(NSString *)p12Password;
+
 /**
  *  rsa加密
  *
@@ -36,13 +46,7 @@
 - (NSData *)rsaEncryptData:(NSData *)data;
 
 // 解密相关
-/**
- *  配置密钥
- *  因为这里导入的是p12文件所以需要密码
- *  @param p12FilePath p12文件路径
- *  @param p12Password 授权密码
- */
-- (void)loadPrivateKeyWithPath:(NSString *)p12FilePath password:(NSString *)p12Password;
+
 /**
  *  rsa解密
  *

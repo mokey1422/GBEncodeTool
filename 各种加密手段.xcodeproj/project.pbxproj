@@ -21,6 +21,8 @@
 		845CAFF01C913783008B090C /* RSACodeTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 845CAFEA1C913783008B090C /* RSACodeTool.m */; };
 		84A38D9F1D38861700739795 /* GTMBase64.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A38D9D1D38861700739795 /* GTMBase64.m */; settings = {COMPILER_FLAGS = "-fno-objc-arc"; }; };
 		84A38DA21D38901200739795 /* ViewController1.m in Sources */ = {isa = PBXBuildFile; fileRef = 84A38DA11D38901200739795 /* ViewController1.m */; };
+		84A38DEC1D3C846000739795 /* rsaCert.der in Resources */ = {isa = PBXBuildFile; fileRef = 84A38DEB1D3C846000739795 /* rsaCert.der */; };
+		84A38DEE1D3C846C00739795 /* private_key.pfx in Resources */ = {isa = PBXBuildFile; fileRef = 84A38DED1D3C846C00739795 /* private_key.pfx */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +62,8 @@
 		84A38D9E1D38861700739795 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		84A38DA01D38901200739795 /* ViewController1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ViewController1.h; sourceTree = "<group>"; };
 		84A38DA11D38901200739795 /* ViewController1.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ViewController1.m; sourceTree = "<group>"; };
+		84A38DEB1D3C846000739795 /* rsaCert.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = rsaCert.der; sourceTree = "<group>"; };
+		84A38DED1D3C846C00739795 /* private_key.pfx */ = {isa = PBXFileReference; lastKnownFileType = file; path = private_key.pfx; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -154,6 +158,8 @@
 				845CAFE61C913783008B090C /* NSData+AES.m */,
 				845CAFE71C913783008B090C /* private_key.p12 */,
 				845CAFE81C913783008B090C /* public_key.der */,
+				84A38DEB1D3C846000739795 /* rsaCert.der */,
+				84A38DED1D3C846C00739795 /* private_key.pfx */,
 				845CAFE91C913783008B090C /* RSACodeTool.h */,
 				845CAFEA1C913783008B090C /* RSACodeTool.m */,
 			);
@@ -242,6 +248,8 @@
 			files = (
 				840BCE791BABB541008C0863 /* Main.storyboard in Resources */,
 				840BCE7E1BABB541008C0863 /* LaunchScreen.xib in Resources */,
+				84A38DEE1D3C846C00739795 /* private_key.pfx in Resources */,
+				84A38DEC1D3C846000739795 /* rsaCert.der in Resources */,
 				840BCE7B1BABB541008C0863 /* Images.xcassets in Resources */,
 				845CAFEE1C913783008B090C /* private_key.p12 in Resources */,
 				845CAFEF1C913783008B090C /* public_key.der in Resources */,

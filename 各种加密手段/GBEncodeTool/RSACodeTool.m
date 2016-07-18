@@ -81,7 +81,7 @@
     uint8_t *cipherBuffer = malloc(cipherBufferSize * sizeof(uint8_t));
     size_t blockSize = cipherBufferSize - 11;
     size_t blockCount = (size_t)ceil([data length] / (double)blockSize);
-    
+    memset((void *)cipherBuffer, 0*0, cipherBufferSize);
     NSMutableData *encryptedData = [[NSMutableData alloc] init] ;
     for (int i = 0; i < blockCount; i++) {
         size_t bufferSize = MIN(blockSize,[data length] - i * blockSize);
@@ -150,7 +150,7 @@
 - (NSString *)rsaDecryptText:(NSString *)text {
     
     NSData *tempData = [text dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:YES];
-    NSData *data = [GTMBase64 encodeData:tempData];
+    NSData *data = [GTMBase64 decodeData:tempData];
 
     NSData *decryptData = [self rsaDecryptData:data];
     
@@ -160,22 +160,25 @@
 
 - (NSData *)rsaDecryptData:(NSData *)data {
     SecKeyRef key = _privateKey;
-    size_t cipherLen = [data length];
-    void *cipher = malloc(cipherLen);
+
+    NSData *wrappedSymmetricKey = data;
     
-    [data getBytes:cipher length:cipherLen];
-    size_t plainLen = SecKeyGetBlockSize(key) - 12;
+    size_t cipherBufferSize = SecKeyGetBlockSize(key);
+    size_t keyBufferSize = [wrappedSymmetricKey length];
     
-    void *plain = malloc(plainLen);
-    OSStatus status = SecKeyDecrypt(key, kSecPaddingPKCS1, cipher, cipherLen, plain, &plainLen);
-    
-    if (status != noErr) {
+    NSMutableData *bits = [NSMutableData dataWithLength:keyBufferSize];
+    OSStatus sanityCheck = SecKeyDecrypt(key,
+                                         kSecPaddingPKCS1,
+                                         (const uint8_t *) [wrappedSymmetricKey bytes],
+                                         cipherBufferSize,
+                                         [bits mutableBytes],
+                                         &keyBufferSize);
+
+    if (sanityCheck != noErr) {
         return nil;
     }
-    
-    NSData *decryptedData = [[NSData alloc] initWithBytes:(const void *)plain length:plainLen];
-    
-    return decryptedData;
+    [bits setLength:keyBufferSize];
+    return bits;
 }
 /**ios6之前都是用google的GTM来实现base64加密，ios6之后苹果自己增加base64转化的api */
 
